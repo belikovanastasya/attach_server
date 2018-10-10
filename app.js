@@ -29,16 +29,16 @@ app.use(session({
 }));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/user', user);
-app.use(express.static(__dirname + '/templateLogReg'));
+//app.use(bodyParser.urlencoded({ extended: false }));
+// app.use('/user', user);
+// app.use(express.static(__dirname + '/templateLogReg'));
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('File Not Found');
-    err.status = 404;
-    next(err);
-});
+// // catch 404 and forward to error handler
+// app.use(function (req, res, next) {
+//     var err = new Error('File Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
 // error handler
 // define as the last app.use callback

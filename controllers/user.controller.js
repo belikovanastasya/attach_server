@@ -5,13 +5,35 @@ exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
 };
 
-exports.user_create = function (req, res) {
-  let user = new User(
-      {
-          email: req.body.email,
-          password: req.body.password
-      }
-  );
+exports.user_create = function (req, res, next) {
+    if (req.body.password !== req.body.passwordConf) {
+        var err = new Error('Passwords do not match.');
+        err.status = 400;
+        res.send("passwords dont match");
+        return next(err);
+    }
+    if (req.body.email &&
+        req.body.username &&
+        req.body.password &&
+        req.body.passwordConf) {
+        let user = new User(
+            {
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password,
+                passwordConf: req.body.passwordConf,
+            }
+        );
+        User.create(user, function (error, user) {
+            if (error) {
+                return next(error);
+            } else {
+                req.session.userId = user._id;
+                return res.send(user);
+            }
+        });
+    }
+
 
   user.save(function (err) {
       if (err) {
