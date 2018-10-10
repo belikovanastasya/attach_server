@@ -29,8 +29,8 @@ app.use(session({
 }));
 
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
-// app.use('/user', user);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/user', user);
 // app.use(express.static(__dirname + '/templateLogReg'));
 
 // // catch 404 and forward to error handler
@@ -48,7 +48,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-let port = 1234;
+let port = 3000;
 
 app.listen(port, () => {
     console.log('Server is up and running on port numner ' + port);
