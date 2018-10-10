@@ -29,18 +29,34 @@ exports.user_create = function (req, res, next) {
                 return next(error);
             } else {
                 req.session.userId = user._id;
-                return res.send(user);
+                return res.redirect('/profile');
             }
         });
     }
-
-
-  user.save(function (err) {
-      if (err) {
-          return next(err);
+    else if (req.body.logemail && req.body.logpassword) {
+        User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
+          if (error || !user) {
+            var err = new Error('Wrong email or password.');
+            err.status = 401;
+            return next(err);
+          } else {
+            req.session.userId = user._id;
+            return res.redirect('/profile');
+          }
+        });
+      } else {
+        var err = new Error('All fields required.');
+        err.status = 400;
+        return next(err);
       }
-      res.send('User Created successfully')
-  })
+
+
+        // User.save(function (err) {
+        //     if (err) {
+        //         return next(err);
+        //     }
+        //     res.send('User Created successfully');
+        // })
 };
 
 exports.user_details = function (req, res) {
