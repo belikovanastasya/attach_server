@@ -44,37 +44,39 @@ exports.user_create = function (req, res, next) {
             return res.send(user);
           }
         });
-      } else {
+      }
+      else {
         var err = new Error('All fields required.');
         err.status = 400;
         return next(err);
       }
 };
-exports.user_auth = function (req, res, next) {
-    console.log(req.email, req.password)
-    if (req.body.email && req.body.password) {
-        // let user = new User(
-        //     {
-        //         email: req.body.email,
-        //         password: req.body.password,
-        //     }
-        // );
-        User.authenticate(req.body.email, req.body.password, function (error, user) {
-          if (error || !user) {
-            var err = new Error('Wrong email or password.');
-            err.status = 401;
-            return next(err);
-          } else {
-            req.session.userId = user._id;
-            return res.send(user);
-          }
-        });
-      } else {
-        var err = new Error('All fields required.');
-        err.status = 400;
-        return next(err);
-      }
-}
+// exports.user_auth = function (req, res, next) {
+
+//     if (req.body.email && req.body.password) {
+//         let user = new User(
+//             {
+//                 email: req.body.email,
+//                 password: req.body.password,
+//             }
+//         );
+//         User.authenticate(req.body.email, req.body.password, function (error, user) {
+//             console.log(req.body.email, req.body.password)
+//           if (error || !user) {
+//             var err = new Error('Wrong email or password.');
+//             err.status = 401;
+//             return next(err);
+//           } else {
+//             req.session.userId = user._id;
+//             return res.send(user);
+//           }
+//         });
+//       } else {
+//         var err = new Error('All fields required.');
+//         err.status = 400;
+//         return next(err);
+//       }
+// }
 
 exports.user_details = function (req, res) {
   User.findById(req.params.id, function (err, user) {
