@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const user = require('./routes/user.route'); // Imports routes for the products
+const user = require('./routes/user.route'); // Imports routes for the user
 const app = express();
 
 // Set up mongoose connection
@@ -14,10 +14,15 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use('/user', user);
+app.use(passport.initialize());
+require('./services/passport')(passport);
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use('/api/users', user);
+app.get('/', function(req, res) {
+    res.send('hello');
+});
 let port = 3000;
 
 app.listen(port, () => {
