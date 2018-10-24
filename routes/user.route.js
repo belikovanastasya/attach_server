@@ -9,7 +9,7 @@ const user_controller = require('../controllers/user.controller');
 router.get('/test', user_controller.test);
 router.post('/register', user_controller.user_create);
 router.post('/login', user_controller.user_login);
-router.post('/me', passport.authenticate('jwt', { session: false }), user_controller.user_check);
+router.get('/checkuser', passport.authenticate('jwt', { session: false }), user_controller.user_check);
 // router.get('/:id', user_controller.user_details);
 // router.put('/:id/update', user_controller.user_update);
 // router.delete('/:id/delete', user_controller.user_delete);
