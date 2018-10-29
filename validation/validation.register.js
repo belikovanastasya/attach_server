@@ -2,7 +2,7 @@ const Validator = require('validator');
 const isEmpty = require('../services/isEmpty');
 
 module.exports = function validateRegisterInput(data) {
-    let errors = {};
+    let error = {};
     data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password : '';
     data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
@@ -10,35 +10,35 @@ module.exports = function validateRegisterInput(data) {
 
 
     if(!Validator.isEmail(data.email)) {
-        errors.email = 'Email is invalid';
+        error.email = 'Email is invalid';
     }
 
     if(Validator.isEmpty(data.email)) {
-        errors.email = 'Email is required';
+        error.email = 'Email is required';
     }
 
     if(!Validator.isLength(data.password, {min: 6, max: 30})) {
-        errors.password = 'Password must have 6 chars';
+        error.password = 'Password must have 6 chars';
     }
 
     if(Validator.isEmpty(data.password)) {
-        errors.password = 'Password is required';
+        error.password = 'Password is required';
     }
 
     if(!Validator.isLength(data.password_confirm, {min: 6, max: 30})) {
-        errors.password_confirm = 'Password must have 6 chars';
+        error.password_confirm = 'Password must have 6 chars';
     }
 
     if(!Validator.equals(data.password, data.password_confirm)) {
-        errors.password_confirm = 'Password and Confirm Password must match';
+        error.password_confirm = 'Password and Confirm Password must match';
     }
 
     if(Validator.isEmpty(data.password_confirm)) {
-        errors.password_confirm = 'Password is required';
+        error.password_confirm = 'Password is required';
     }
 
     return {
-        errors,
-        isValid: isEmpty(errors)
+        error,
+        isValid: isEmpty(error)
     }
 }

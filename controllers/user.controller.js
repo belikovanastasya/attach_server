@@ -20,8 +20,9 @@ exports.user_create = function(req, res) {
   }).then(user => {
     if (user) {
       return res.status(400).json({
-        email: "Email already exists"
+        error: "Email already exists"
       });
+
     } else {
       const newUser = new User({
         email: req.body.email,
@@ -47,10 +48,10 @@ exports.user_create = function(req, res) {
 };
 
 exports.user_login = function (req, res) {
-    const { errors, isValid } = validateLoginInput(req.body);
+    const { error, isValid } = validateLoginInput(req.body);
 
     if (!isValid) {
-        return res.status(400).json(errors);
+        return res.status(400).json({error: error});
     }
 
     const email = req.body.email;
@@ -59,8 +60,8 @@ exports.user_login = function (req, res) {
     User.findOne({ email })
         .then(user => {
             if (!user) {
-                errors.email = 'User not found'
-                return res.status(404).json(errors);
+                error.email = 'User not found'
+                return res.status(404).json(error);
             }
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
@@ -82,8 +83,8 @@ exports.user_login = function (req, res) {
                         });
                     }
                     else {
-                        errors.password = 'Incorrect Password';
-                        return res.status(400).json(errors);
+                        error.password = 'Incorrect Password';
+                        return res.status(400).json(error);
                     }
                 });
         });
