@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const validateRegisterInput = require('../validation/validation.register');
 const validateLoginInput = require('../validation/validation.login');
 
+
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Test controller!')
@@ -37,6 +38,7 @@ exports.user_create = function(req, res) {
             else {
               newUser.password = hash;
               newUser.save().then(user => {
+                req.session.user = user;
                 res.json(user);
               });
             }
@@ -75,6 +77,7 @@ exports.user_login = function (req, res) {
                         }, (err, token) => {
                             if (err) console.error('There is some error in token', err);
                             else {
+                                req.session.user = user;
                                 res.json({
                                     success: true,
                                     token: `Bearer ${token}`,
@@ -90,11 +93,19 @@ exports.user_login = function (req, res) {
                 });
         });
 }
-exports.user_check = function (req, res) {
-    return res.json({
-        id: req.user.id,
-        email: req.user.email
-    });
+exports.user_check = function (req, res, next) {
+    console.log(req.session.user)
+    if (req.session.user) {
+        const user = res.session.user;
+        console.log(user)
+        res.json({user
+            // id: req.user.id,
+            // email: req.user.email
+        });
+    } else {
+        res.status(401);
+    }
+
 }
 // exports.user_details = function (req, res) {
 //   User.findById(req.params.id, function (err, user) {
