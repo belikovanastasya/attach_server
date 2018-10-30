@@ -77,7 +77,8 @@ exports.user_login = function (req, res) {
                             else {
                                 res.json({
                                     success: true,
-                                    token: `Bearer ${token}`
+                                    token: `Bearer ${token}`,
+                                    user: user
                                 });
                             }
                         });
