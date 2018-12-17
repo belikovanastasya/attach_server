@@ -20,6 +20,7 @@ exports.user_create = function(req, res) {
   }).then(user => {
     if (user) {
       return res.status(400).json({
+        user: null,
         error: "Email already exists"
       });
 
