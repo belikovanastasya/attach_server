@@ -51,9 +51,10 @@ exports.user_create = function(req, res) {
 
 exports.user_login = function (req, res) {
     const { error, isValid } = validateLoginInput(req.body);
-
+    let errors = {};
     if (!isValid) {
-        return res.status(400).json({error: error});
+        errors.text = error.join(', ');
+        return res.status(400).json({error: errors});
     }
 
     const email = req.body.email;
@@ -61,7 +62,6 @@ exports.user_login = function (req, res) {
 
     User.findOne({ email })
         .then(user => {
-            let errors = {};
             if (!user) {
                 errors.text  = 'User not found';
                 return res.status(404).json({error: errors});
