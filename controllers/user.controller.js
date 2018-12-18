@@ -61,9 +61,10 @@ exports.user_login = function (req, res) {
 
     User.findOne({ email })
         .then(user => {
+            let errors = {};
             if (!user) {
-                error.email = 'User not found'
-                return res.status(404).json({error: error.email});
+                errors.text  = 'User not found';
+                return res.status(404).json({error: errors});
             }
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
@@ -86,8 +87,8 @@ exports.user_login = function (req, res) {
                         });
                     }
                     else {
-                        error.password = 'Incorrect Password';
-                        return res.status(400).json({error: error.password});
+                        errors.text  = 'Incorrect Password';
+                        return res.status(400).json({error: errors});
                     }
                 });
         });
