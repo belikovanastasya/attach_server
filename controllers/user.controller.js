@@ -18,11 +18,12 @@ exports.user_create = function(req, res) {
   User.findOne({
     email: req.body.email
   }).then(user => {
+      let errors = {};
     if (user) {
-      return res.status(400).json({
-        user: null,
-        error: "Email already exists"
-      });
+        errors.text = "Email already exists";
+        return res.status(400).json(
+            {error: errors}
+      );
 
     } else {
       const newUser = new User({
