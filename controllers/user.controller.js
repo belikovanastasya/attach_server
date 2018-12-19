@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
 const validateRegisterInput = require('../validation/validation.register');
 const validateLoginInput = require('../validation/validation.login');
 const config = require('../services/config');
@@ -95,10 +96,16 @@ exports.user_login = function (req, res) {
         });
 }
 exports.user_check = function (req, res) {
-    return res.json({
-        id: req.user.id,
-        email: req.user.email
-    });
+    const user = jwtDecode(req.body.token);
+    const user_ID = user.id;
+    User.findOne({ _id: user_ID })
+        .then(user => {
+            if (!user) {
+                return res.status(404);
+            }
+            return res.status(200).json({user: user})
+        }
+    )
 }
 // exports.user_details = function (req, res) {
 //   User.findById(req.params.id, function (err, user) {
