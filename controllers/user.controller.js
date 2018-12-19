@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validateRegisterInput = require('../validation/validation.register');
 const validateLoginInput = require('../validation/validation.login');
+const config = require('../services/config');
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
@@ -73,7 +74,7 @@ exports.user_login = function (req, res) {
                             id: user.id,
                             name: user.name
                         }
-                        jwt.sign(payload, 'secret', {
+                        jwt.sign(payload, config.jwtSecret, {
                             expiresIn: 3600
                         }, (err, token) => {
                             if (err) console.error('There is some error in token', err);
