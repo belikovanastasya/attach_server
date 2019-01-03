@@ -30,7 +30,12 @@ exports.user_create = function(req, res) {
     } else {
       const newUser = new User({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        firstName: '',
+        lastName: '',
+        avatar: '',
+        isDesigner: false,
+        description: ''
       });
 
       bcrypt.genSalt(10, (err, salt) => {
