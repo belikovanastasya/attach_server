@@ -1,4 +1,4 @@
 const config = {
-    jwtSecret: 'secret'
+  jwtSecret: 'secret',
 };
 module.exports = config;
