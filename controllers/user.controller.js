@@ -73,7 +73,7 @@ const userController = {
             payload,
             config.jwtSecret,
             {
-              expiresIn: 3600
+              expiresIn: 3600,
             },
             (err, token) => {
               if (err) console.error('There is some error in token', err);
@@ -84,7 +84,7 @@ const userController = {
                   user,
                 });
               }
-            }
+            },
           );
         } else {
           errors.text = 'Incorrect Password';
