@@ -10,6 +10,6 @@ router.post('/register', userController.user_create);
 router.post('/login', userController.user_login);
 router.post('/checkuser', userController.user_check);
 // router.get('/:id', userController.user_details);
-// router.put('/:id/update', userController.user_update);
+router.put('/update', userController.user_update);
 // router.delete('/:id/delete', userController.user_delete);
 module.exports = router;
