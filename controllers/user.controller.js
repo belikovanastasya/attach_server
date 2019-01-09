@@ -90,7 +90,8 @@ const userController = {
           errors.text = 'Incorrect Password';
           return res.status(400).json({ error: errors });
         }
-      });
+      })
+        .catch(err => console.log(err));
     });
   },
   user_check(req, res) {
