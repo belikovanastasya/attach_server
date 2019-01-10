@@ -44,7 +44,7 @@ const userController = {
                 res.json(user);
               });
             }
-          })
+          });
         }
       });
     });
