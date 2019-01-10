@@ -10,8 +10,7 @@ const UserSchema = new Schema({
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   description: { type: String, required: false, max: 200 },
-  avatar: { type: String, required: false, max: 200 },
-  isDesigner: { type: Boolean, required: false, },
+  isDesigner: { type: Boolean, required: false },
 });
 UserSchema.methods.toJSON = function () {
   const obj = this.toObject();
