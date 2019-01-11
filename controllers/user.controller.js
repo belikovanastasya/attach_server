@@ -95,6 +95,9 @@ const userController = {
     });
   },
   user_check(req, res) {
+    if (!req.body.token) {
+      return res.status(404);
+    }
     const user = jwtDecode(req.body.token);
     const userID = user.id;
     User.findOne({ _id: userID }).then((user) => {
