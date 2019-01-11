@@ -95,8 +95,7 @@ const userController = {
     });
   },
   user_check(req, res) {
-    console.log(req.body.token === null);
-    if (req.body.token === null) {
+    if (req.body.token === null || req.body.token === undefined) {
       return res.status(403).json({
         error: 'No token',
       });
