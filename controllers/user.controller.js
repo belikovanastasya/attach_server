@@ -95,8 +95,11 @@ const userController = {
     });
   },
   user_check(req, res) {
-    if (!req.body.token) {
-      return res.status(404);
+    console.log(req.body.token === null);
+    if (req.body.token === null) {
+      return res.status(403).json({
+        error: 'No token',
+      });
     }
     const user = jwtDecode(req.body.token);
     const userID = user.id;
