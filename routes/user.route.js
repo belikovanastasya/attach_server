@@ -12,4 +12,6 @@ router.post('/checkuser', userController.user_check);
 // router.get('/:id', userController.user_details);
 router.put('/update', userController.user_update);
 // router.delete('/:id/delete', userController.user_delete);
+router.post('/userworks', userController.user_works);
+
 module.exports = router;

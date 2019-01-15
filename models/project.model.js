@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const ProjectSchema = new Schema({
+const ProjectsSchema = new Schema({
   title: {
     type: String, required: true, max: 100, unique: true,
   },
@@ -10,8 +10,7 @@ const ProjectSchema = new Schema({
   dataDeadline: { type: Date, required: true },
   dataVotingStart: { type: Date, required: true },
   dataVotingEnd: { type: Date, required: true },
-  works: { type: Array, required: false, max: 200 },
 });
 
 // Export the model
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = mongoose.model('Projects', ProjectsSchema);
