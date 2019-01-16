@@ -13,18 +13,18 @@ In case you need to change port number go to app/app.js and find line with code 
 
 # User API #
 
-###login:###
+### login: ###
 
 /api/users/login post { email, password } - by default there is one user in the system with  credentials. On success returns object with user fields {...} On error returns 401 error 'Password or email wrong' or "User not found';
 
-###create new user:###
+### create new user: ###
 
 /api/users/register post { firstname, lastname, email, password };
 
-###update existing user:###
+### update existing user: ###
 /api/users/update put { firstname, lastname };
 
-###services routes:###
+### services routes: ###
 
 /api/users/checkuser get - if user is authenticated, return object with user {...}, in other case - 404 error { error: "User is not authenticated"}
 
