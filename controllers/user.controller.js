@@ -6,7 +6,6 @@ const validateLoginInput = require('../validation/validation.login');
 const config = require('../services/config');
 const User = require('../models/user.model');
 const Works = require('../models/works.model');
-const Projects = require('../models/project.model');
 
 const userController = {
   test(req, res) {
