@@ -1,4 +1,4 @@
-#Installation#
+# Installation #
 Clone repo git clone https://github.com/belikovanastasya/attach_server.git
 
 Go to project folder and make npm i
@@ -11,7 +11,7 @@ In case you need to change port number go to app/app.js and find line with code 
 
 ====================================
 
-#User API#
+# User API #
 
 ###login:###
 
