@@ -9,7 +9,197 @@ const Works = require('../models/works.model');
 
 const userController = {
   test(req, res) {
-    res.send('Greetings from the Test controller!');
+    const data = {
+      "type": "training",
+      "source_params": {
+          "selected_sources": [
+              {
+                  "id": 8,
+                  "name": "Quandl Eod",
+                  "table_name": "source_quandl_eod",
+                  "interpolation_method": "cubic",
+                  "fields": [
+                      "Adj_Open",
+                      "Adj_High",
+                      "Adj_Low",
+                      "Adj_Close"
+                  ],
+                  "type": "daily"
+              }
+          ],
+          "main_field": "Adj_Close",
+          "main_source": 8,
+          "split_rate": 0.3,
+          "start_date": "2010-01-04",
+          "end_date": "2019-04-08"
+      },
+      "feature_params": [
+          {
+              "handler_cls": "Interpolation",
+              "args": {
+                  "interpolate": {
+                      "cubic": [
+                          "Adj_Open",
+                          "Adj_Close",
+                          "Adj_Low",
+                          "Adj_High"
+                      ]
+                  }
+              }
+          },
+          {
+              "handler_cls": "DateFeaturesGenerator",
+              "args": {}
+          },
+          {
+              "handler_cls": "Detrend",
+              "args": {
+                  "features": [
+                      "Adj_Open",
+                      "Adj_Close",
+                      "Adj_Low",
+                      "Adj_High",
+                      "Adj_Volume"
+                  ],
+                  "target_apply": true
+              }
+          },
+          {
+              "handler_cls": "Scaler",
+              "args": {
+                  "target_apply": false
+              }
+          },
+          {
+              "handler_cls": "TargetEncoder",
+              "args": {
+                  "features": [
+                      "dayofweek",
+                      "weekofyear",
+                      "is_month_start",
+                      "is_month_end",
+                      "is_weekend",
+                      "is_quarter_start",
+                      "is_quarter_end"
+                  ],
+                  "target": "Adj_Close"
+              }
+          },
+          {
+              "handler_cls": "LagTransformer",
+              "args": {
+                  "features_lags": {
+                      "Adj_Open": [
+                          1,
+                          2,
+                          15
+                      ],
+                      "Adj_Close": [
+                          1,
+                          2,
+                          23,
+                          27,
+                          28,
+                          29
+                      ],
+                      "Adj_High": [
+                          1,
+                          2,
+                          29
+                      ],
+                      "Adj_Low": [
+                          1,
+                          2
+                      ],
+                      "Adj_Volume": [
+                          1,
+                          2,
+                          23,
+                          27,
+                          29,
+                          32
+                      ],
+                      "is_month_start": [
+                          1
+                      ],
+                      "is_month_end": [
+                          1
+                      ],
+                      "dayofyear": [
+                          1
+                      ],
+                      "dayofweek": [
+                          1
+                      ],
+                      "is_weekend": [
+                          1,
+                          2,
+                          3
+                      ],
+                      "is_quarter_start": [
+                          1
+                      ],
+                      "is_quarter_end": [
+                          1
+                      ],
+                      "weekofyear": [
+                          1
+                      ]
+                  }
+              }
+          },
+          {
+              "handler_cls": "Dropna",
+              "args": {}
+          }
+      ],
+      "target_params": {
+          "detrending": false,
+          "normalization": false
+      },
+      "model": "Gru",
+      "hyper_params": {
+          "recurrent_layers_count": 2,
+          "recurrent_layers": [
+              20,
+              20
+          ],
+          "dense_layers_count": 2,
+          "dense_layers": [
+              20,
+              20
+          ],
+          "epochs": "20",
+          "recurrent_activation": "tanh",
+          "dense_activation": "tanh",
+          "learning_rate": "0.01",
+          "recurrent_dropout": 0.01,
+          "time_steps": 1,
+          "learning_mode": {
+              "type": "mini-batch",
+              "size": 30
+          },
+          "optimizer": "adam",
+          "batch_norm": false,
+          "lr_decay_factor": 1.0,
+          "lr_decay_step": 10,
+          "recurrent_regularization_method": "l2",
+          "recurrent_regularization_rate": 0,
+          "recurrent_layer_dropout": 0.0,
+          "dense_regularization_method": "l2",
+          "dense_regularization_rate": 0,
+          "dense_layer_dropout": 0.0,
+          "namespaced": true
+      },
+      "date_source_fields": [
+          "dayofweek",
+          "is_weekend",
+          "is_month_end"
+      ],
+      "company_id": 2
+  }
+    //res.send('Greetings from the Test controller!');
+    res.json(data);
   },
   user_create(req, res) {
     const { errors, isValid } = validateRegisterInput(req.body);
